@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Adam Harris — The Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:'DM Mono',monospace}
+#scroller{position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+#scroller::-webkit-scrollbar{display:none}
+#scroller{scrollbar-width:none}
+
+#canvas{position:relative;height:100%;width:auto;display:inline-block}
+
+#room-img{display:block;height:100%;width:auto;max-width:none}
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2.5rem);height:48px;pointer-events:none}
+#nav *{pointer-events:auto}
+.nav-logo{font-size:.56rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.nav-right{display:flex;gap:clamp(.8rem,2vw,2rem)}
+.nav-a{font-size:.48rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s}
+.nav-a:hover,.nav-a.on{color:rgba(255,255,255,.85)}
+/* DOTS */
+.hs{position:absolute;width:22px;height:22px;transform:translate(-50%,-50%);z-index:20;cursor:pointer}
+.hs-dot{width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:0;left:0;transition:background .2s,transform .2s;animation:pw 3s ease infinite}
+.hs.open .hs-dot,.hs:hover .hs-dot{background:#a78bfa;transform:scale(1.25);animation:pp 2.2s ease infinite}
+@keyframes pw{0%{box-shadow:0 0 0 0 rgba(255,255,255,.65)}70%{box-shadow:0 0 0 14px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+@keyframes pp{0%{box-shadow:0 0 0 0 rgba(167,139,250,.7)}70%{box-shadow:0 0 0 18px rgba(167,139,250,0)}100%{box-shadow:0 0 0 0 rgba(167,139,250,0)}}
+/* INFO CARDS */
+.card{position:absolute;top:30px;left:28px;width:240px;background:rgba(4,4,4,.94);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:1rem 1.1rem;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(6px) scale(.96);transition:opacity .24s,transform .24s,visibility .24s;z-index:30}
+.hs.flip .card{left:auto;right:28px}
+.hs.open .card{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1)}
+.card-x{float:right;font-size:.44rem;color:rgba(255,255,255,.22);cursor:pointer;padding:.05rem 0 .15rem .4rem;transition:color .2s}
+.card-x:hover{color:#fff}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.03em;color:#fff;margin-bottom:.5rem;clear:both}
+.card-body{font-size:.54rem;line-height:1.72;color:rgba(255,255,255,.45);white-space:pre-line}
+.card-chips{display:flex;flex-wrap:wrap;gap:.28rem;margin-top:.7rem}
+.chip{font-size:.36rem;letter-spacing:.22em;text-transform:uppercase;border:1px solid rgba(167,139,250,.28);color:rgba(167,139,250,.62);padding:.14rem .46rem}
+/* REVEAL OVERLAY */
+.reveal{position:fixed;inset:0;z-index:900;background:#000;overflow:hidden;clip-path:circle(0% at 50% 50%);pointer-events:none;will-change:clip-path}
+.r-scroll{width:100%;height:100%;overflow-y:scroll;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.r-scroll::-webkit-scrollbar{display:none}
+.r-scroll{scrollbar-width:none}
+.r-img{display:block;width:100%;height:auto;will-change:filter,transform}
+.r-caption{position:sticky;bottom:0;background:linear-gradient(to top,rgba(0,0,0,.95) 0%,transparent 100%);padding:2.5rem 2rem 5rem;pointer-events:none}
+.r-caption small{display:block;font-size:.44rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:.5rem}
+.r-caption h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,10vw,7rem);color:rgba(255,255,255,.9);line-height:.88;font-weight:400}
+/* CLOCK in reveal */
+.clock-row{display:flex;gap:2rem;margin-top:1.5rem;flex-wrap:wrap}
+.clock-item{flex:1;min-width:120px}
+.clock-city{font-size:.42rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.4rem}
+.clock-time{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,8vw,5rem);color:rgba(255,255,255,.9);letter-spacing:.04em;line-height:1}
+.clock-date{font-size:.42rem;letter-spacing:.2em;color:rgba(255,255,255,.25);margin-top:.2rem}
+/* BACK BTN */
+#backbtn{position:fixed;top:1.4rem;right:1.4rem;z-index:1000;font-size:.46rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.2);padding:.52rem 1.2rem;background:rgba(0,0,0,.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);cursor:pointer;opacity:0;pointer-events:none;transform:translateY(-6px);transition:color .2s,border-color .2s}
+#backbtn:hover{color:#fff;border-color:rgba(255,255,255,.55)}
+/* BOT */
+#bot{position:fixed;bottom:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2.5rem);height:52px;pointer-events:none}
+.bot-btn{font-size:.48rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.2);padding:.5rem 1.2rem;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);text-decoration:none;pointer-events:auto;transition:color .22s,border-color .22s;white-space:nowrap}
+.bot-btn:hover{color:#fff;border-color:rgba(255,255,255,.55)}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.024'/%3E%3C/svg%3E");pointer-events:none;z-index:9000;opacity:.45}
+
+/* Zone card body — italic serif for storytelling copy */
+.zone-body{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;line-height:1.85;color:rgba(255,255,255,.52);white-space:pre-line;margin-top:.4rem}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav id="nav">
+  <span class="nav-logo">Adam Harris</span>
+  <div class="nav-right">
+    <a href="index.html" class="nav-a">The Lounge</a>
+    <a href="studio.html" class="nav-a on">The Studio</a>
+    <a href="#" class="nav-a">Music</a>
+    <a href="#" class="nav-a">Contact</a>
+  </div>
+</nav>
+
+<div id="scroller">
+<div id="canvas">
+
+  <img id="room-img" src="images/studio.jpg" alt="The Studio" draggable="false">
+
+  <!-- ZONE 1: PIANO → zoom reveal into close-up -->
+  <div class="hs" id="h-piano" style="left:7.8%;top:58.6%" onclick="openReveal(this,'rv-piano')">
+    <div class="hs-dot"></div>
+  </div>
+
+  <!-- ZONE 2: MIC → zoom reveal into close-up -->
+  <div class="hs" id="h-mic" style="left:58.6%;top:42.0%" onclick="openReveal(this,'rv-mic')">
+    <div class="hs-dot"></div>
+  </div>
+
+  <!-- ZONE 3: WAVELENGTH → zoom reveal into close-up -->
+  <div class="hs" id="h-wave" style="left:28.6%;top:38.1%" onclick="openReveal(this,'rv-wave')">
+    <div class="hs-dot"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- PIANO ZOOM REVEAL -->
+<div class="reveal" id="rv-piano">
+  <div class="r-scroll">
+    <img class="r-img" src="images/piano-close.jpg" alt="Piano" draggable="false">
+    <div class="r-caption">
+      <small>Zone 1 — The Piano</small>
+      <h2>THE<br>PIANO</h2>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;line-height:1.85;color:rgba(255,255,255,.48);margin-top:1.2rem;max-width:480px">I never grew up playing instruments.
+This wasn't something I was taught.
+
+I just always had this vision —
+a grand piano at the bottom of a spiral staircase.
+
+So I started learning…
+from scratch.
+
+One day I'll have it all —
+might as well know how to play it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MIC ZOOM REVEAL -->
+<div class="reveal" id="rv-mic">
+  <div class="r-scroll">
+    <img class="r-img" src="images/mic-close.jpg" alt="The Mic" draggable="false">
+    <div class="r-caption">
+      <small>Zone 2 — The Mic</small>
+      <h2>THE<br>MIC</h2>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;line-height:1.85;color:rgba(255,255,255,.48);margin-top:1.2rem;max-width:480px">This is the same mic I started with.
+One of the first things I spent real money on.
+
+Back then, it felt like a risk —
+but I knew I had to take it seriously.
+
+I never replaced it.
+Didn't really feel the need to.
+
+Everything I've ever made started here.
+This is where the magic happens.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WAVELENGTH ZOOM REVEAL -->
+<div class="reveal" id="rv-wave">
+  <div class="r-scroll">
+    <img class="r-img" src="images/wavelength-close.jpg" alt="Wavelength" draggable="false">
+    <div class="r-caption">
+      <small>Zone 3 — Wavelength</small>
+      <h2>WAVE<br>LENGTH</h2>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;line-height:1.85;color:rgba(255,255,255,.48);margin-top:1.2rem;max-width:480px">This is the actual licence plate
+from the first song and music video I ever released.
+
+It was one of the earliest songs I made
+where I just knew… this is the one.
+
+I even said it before it happened —
+this is going to get played on the radio.
+
+And it did.
+
+I keep it here as a reminder —
+I turned an idea into a dream come true…
+and I can do it again.</p>
+    </div>
+  </div>
+</div>
+
+<button id="backbtn" onclick="closeReveal()">&#10005;&nbsp; Back</button>
+
+<div id="bot">
+  <a href="index.html" class="bot-btn">&#8592; The Lounge</a>
+  <a href="#" class="bot-btn">Music</a>
+</div>
+
+<script>
+function centre(){
+  var s=document.getElementById('scroller');
+  if(s && s.scrollWidth > s.clientWidth){
+    s.scrollLeft=(s.scrollWidth-s.clientWidth)/2;
+  }
+}
+window.addEventListener('load',centre);
+window.addEventListener('resize',centre);
+
+var _ox=50,_oy=50,_activeReveal=null;
+var EO='cubic-bezier(0.22,1,0.36,1)';
+var EC='cubic-bezier(0.64,0,0.78,0)';
+
+function openReveal(dotEl, revealId) {
+  if(_activeReveal) closeReveal();
+  var ring = dotEl.querySelector('.hs-dot');
+  var r = ring.getBoundingClientRect();
+  _ox = ((r.left+r.width/2)/window.innerWidth*100).toFixed(1);
+  _oy = ((r.top+r.height/2)/window.innerHeight*100).toFixed(1);
+  _activeReveal = revealId;
+
+  var rv = document.getElementById(revealId);
+  var ri = rv.querySelector('.r-img');
+  var btn = document.getElementById('backbtn');
+
+  ri.style.transition='none';
+  ri.style.filter='blur(18px) brightness(0.6)';
+  ri.style.transform='scale(1.06)';
+  rv.style.transition='none';
+  rv.style.clipPath='circle(0% at '+_ox+'% '+_oy+'%)';
+  rv.style.pointerEvents='none';
+  void rv.offsetWidth;
+
+  rv.style.transition='clip-path 1.15s '+EO;
+  rv.style.clipPath='circle(160% at '+_ox+'% '+_oy+'%)';
+  rv.style.pointerEvents='auto';
+  ri.style.transition='filter 0.9s ease 0.15s,transform 1s '+EO+' 0.1s';
+  ri.style.filter='blur(0px) brightness(1)';
+  ri.style.transform='scale(1)';
+
+  btn.style.transition='opacity 0.4s ease 0.8s,transform 0.4s '+EO+' 0.8s';
+  btn.style.opacity='1';btn.style.transform='translateY(0)';btn.style.pointerEvents='auto';
+
+  var sc = rv.querySelector('.r-scroll');
+  if(sc) sc.scrollTop=0;
+  document.getElementById('scroller').style.overflow='hidden';
+}
+
+function closeReveal() {
+  if(!_activeReveal) return;
+  var rv = document.getElementById(_activeReveal);
+  var ri = rv.querySelector('.r-img');
+  var btn = document.getElementById('backbtn');
+
+  ri.style.transition='filter 0.5s ease,transform 0.6s '+EC;
+  ri.style.filter='blur(14px) brightness(0.5)';
+  ri.style.transform='scale(1.05)';
+  rv.style.transition='clip-path 0.75s '+EC;
+  rv.style.clipPath='circle(0% at '+_ox+'% '+_oy+'%)';
+  rv.style.pointerEvents='none';
+  btn.style.transition='opacity 0.2s ease,transform 0.2s ease';
+  btn.style.opacity='0';btn.style.transform='translateY(-6px)';btn.style.pointerEvents='none';
+  document.getElementById('scroller').style.overflow='scroll';
+  _activeReveal=null;
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeReveal();});
+
+
+var _activeCard=null;
+function togCard(id){if(_activeCard===id){closeCard(id);return;}if(_activeCard)closeCard(_activeCard);openCard(id);}
+function openCard(id){document.getElementById(id).classList.add('open');_activeCard=id;}
+function closeCard(id){document.getElementById(id).classList.remove('open');if(_activeCard===id)_activeCard=null;}
+document.getElementById('canvas').addEventListener('click',function(e){
+  if(!e.target.closest('.hs')&&_activeCard)closeCard(_activeCard);
+});
+
+</script>
+</body>
+</html>
