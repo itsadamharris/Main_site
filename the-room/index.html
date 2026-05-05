@@ -1,1 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Adam Harris — The Lounge</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400&family=Cormorant+Garamond:ital,wght@1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:'DM Mono',monospace}
 
+#scroller{position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+#scroller::-webkit-scrollbar{display:none}
+#scroller{scrollbar-width:none}
+
+#canvas{position:relative;height:100%;width:auto;display:inline-block}
+
+#room-img{display:block;height:100%;width:auto;max-width:none}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2.5rem);height:48px;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,.4) 0%,transparent 100%)}
+#nav *{pointer-events:auto}
+.nav-logo{font-size:.56rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.nav-right{display:flex;gap:clamp(.8rem,2vw,2rem)}
+.nav-a{font-size:.48rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s}
+.nav-a:hover,.nav-a.on{color:rgba(255,255,255,.9)}
+
+/* DOTS */
+.hs{position:absolute;width:22px;height:22px;transform:translate(-50%,-50%);z-index:20;cursor:pointer}
+.hs-dot{width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:0;left:0;transition:background .2s,transform .2s;animation:pw 3s ease infinite}
+.hs.open .hs-dot,.hs:hover .hs-dot{background:#a78bfa;transform:scale(1.25);animation:pp 2.2s ease infinite}
+@keyframes pw{0%{box-shadow:0 0 0 0 rgba(255,255,255,.65)}70%{box-shadow:0 0 0 14px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+@keyframes pp{0%{box-shadow:0 0 0 0 rgba(167,139,250,.7)}70%{box-shadow:0 0 0 18px rgba(167,139,250,0)}100%{box-shadow:0 0 0 0 rgba(167,139,250,0)}}
+
+/* INFO CARDS */
+.card{position:absolute;top:30px;left:28px;width:240px;background:rgba(4,4,4,.94);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:1rem 1.1rem;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(6px) scale(.96);transition:opacity .24s,transform .24s,visibility .24s;z-index:30}
+.hs.flip .card{left:auto;right:28px}
+.hs.open .card{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1)}
+.card-x{float:right;font-size:.44rem;color:rgba(255,255,255,.22);cursor:pointer;padding:.05rem 0 .15rem .4rem;transition:color .2s}
+.card-x:hover{color:#fff}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.03em;color:#fff;margin-bottom:.5rem;clear:both}
+.card-body{font-size:.54rem;line-height:1.72;color:rgba(255,255,255,.45);white-space:pre-line}
+.card-chips{display:flex;flex-wrap:wrap;gap:.28rem;margin-top:.7rem}
+.chip{font-size:.36rem;letter-spacing:.22em;text-transform:uppercase;border:1px solid rgba(167,139,250,.28);color:rgba(167,139,250,.62);padding:.14rem .46rem}
+
+/* REVEALS */
+.reveal{position:fixed;inset:0;z-index:900;background:#000;overflow:hidden;clip-path:circle(0% at 50% 50%);pointer-events:none;will-change:clip-path}
+.r-scroll{width:100%;height:100%;overflow-y:scroll;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative}
+.r-scroll::-webkit-scrollbar{display:none}
+.r-scroll{scrollbar-width:none}
+.r-img{display:block;width:100%;height:auto;will-change:filter,transform}
+.r-caption{position:sticky;bottom:0;background:linear-gradient(to top,rgba(0,0,0,.96) 0%,rgba(0,0,0,.7) 50%,transparent 100%);padding:2.5rem 2rem 5rem;pointer-events:none}
+.r-caption small{display:block;font-size:.44rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:.5rem}
+.r-caption h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,10vw,7rem);color:rgba(255,255,255,.9);line-height:.88;font-weight:400}
+
+/* CLOCKS */
+.clocks-wrap{position:sticky;top:0;padding:4rem 2rem 2rem;background:linear-gradient(to bottom,rgba(0,0,0,.88) 0%,rgba(0,0,0,.4) 80%,transparent 100%);pointer-events:none;display:flex;gap:clamp(1.5rem,5vw,4rem);justify-content:center;z-index:2}
+.clk{text-align:center;min-width:110px}
+.clk-city{font-size:.42rem;letter-spacing:.45em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:.6rem}
+.clk-time{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,7vw,4.5rem);color:rgba(255,255,255,.95);letter-spacing:.04em;line-height:1;font-feature-settings:'tnum'}
+.clk-date{font-size:.38rem;letter-spacing:.25em;color:rgba(167,139,250,.55);margin-top:.35rem;text-transform:uppercase}
+.clk-divider{width:1px;background:rgba(255,255,255,.08);align-self:stretch}
+
+/* HIDDEN MEANING dots inside gallery reveal */
+.g-dot{position:absolute;width:18px;height:18px;transform:translate(-50%,-50%);z-index:5;cursor:pointer}
+.g-dot-ring{position:absolute;inset:0;border-radius:50%;background:#fff;animation:pw 3s ease infinite;transition:background .2s,transform .2s}
+.g-dot:hover .g-dot-ring,.g-dot.on .g-dot-ring{background:#a78bfa;transform:scale(1.25);animation:pp 2.2s ease infinite}
+.g-card{position:absolute;top:28px;left:22px;width:210px;background:rgba(4,4,4,.95);border:1px solid rgba(167,139,250,.15);backdrop-filter:blur(18px);padding:.8rem .9rem;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(6px) scale(.96);transition:opacity .24s,transform .24s,visibility .24s;z-index:10}
+.g-dot.flip .g-card{left:auto;right:22px}
+.g-dot.on .g-card{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1)}
+.g-card h4{font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.05em;color:#fff;margin-bottom:.35rem;font-weight:400}
+.g-card em{display:block;font-family:'Cormorant Garamond',serif;font-size:.75rem;line-height:1.65;color:rgba(255,255,255,.5);font-style:italic}
+.g-card-hint{display:block;margin-top:.55rem;font-family:'DM Mono',monospace;font-size:.34rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(167,139,250,.55);font-style:normal}
+
+/* BACK */
+#backbtn{position:fixed;top:1.4rem;right:1.4rem;z-index:1000;font-size:.46rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.2);padding:.52rem 1.2rem;background:rgba(0,0,0,.75);backdrop-filter:blur(16px);cursor:pointer;opacity:0;pointer-events:none;transform:translateY(-6px);transition:color .2s,border-color .2s}
+#backbtn:hover{color:#fff;border-color:rgba(255,255,255,.55)}
+
+#bot{position:fixed;bottom:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2.5rem);height:52px;pointer-events:none}
+.bot-btn{font-size:.48rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.22);padding:.5rem 1.2rem;background:rgba(0,0,0,.78);backdrop-filter:blur(12px);text-decoration:none;pointer-events:auto;transition:color .22s,border-color .22s;white-space:nowrap}
+.bot-btn:hover{color:#fff;border-color:rgba(255,255,255,.55)}
+
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.024'/%3E%3C/svg%3E");pointer-events:none;z-index:9000;opacity:.45}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <span class="nav-logo">Adam Harris</span>
+  <div class="nav-right">
+    <a href="index.html" class="nav-a on">The Lounge</a>
+    <a href="studio.html" class="nav-a">The Studio</a>
+    <a href="#" class="nav-a">Music</a>
+    <a href="#" class="nav-a">Contact</a>
+  </div>
+</nav>
+
+<div id="scroller"><div id="canvas">
+
+  <img id="room-img" src="images/lounge.jpg" alt="The Lounge" draggable="false" onload="console.log('IMG RENDER:', this.naturalWidth+'x'+this.naturalHeight, '→', this.offsetWidth+'x'+this.offsetHeight, 'SCROLLER:', document.getElementById('scroller').clientWidth+'x'+document.getElementById('scroller').clientHeight)">
+
+  <!-- Supreme decks wall — left side — ZOOM REVEAL -->
+  <div class="hs" id="h-decks" style="left:19.5%;top:31.2%" onclick="openReveal(this,'rv-decks')">
+    <div class="hs-dot"></div>
+  </div>
+
+  <!-- Clocks + gallery — ZOOM REVEAL (centre area) -->
+  <div class="hs" id="h-gallery" style="left:49.5%;top:31.2%" onclick="openReveal(this,'rv-gallery')">
+    <div class="hs-dot"></div>
+  </div>
+
+  <!-- TV — info card -->
+  <div class="hs flip" id="h-tv" style="left:70.3%;top:39.1%" onclick="togCard('h-tv')">
+    <div class="hs-dot"></div>
+    <div class="card">
+      <span class="card-x" onclick="event.stopPropagation();closeCard('h-tv')">&#10005;</span>
+      <div class="card-title">The Screen</div>
+      <p class="card-body">Where the playbacks happen. Where new ideas get watched, studied, rewound. Nothing on it by default — it's quiet until there's something worth showing.</p>
+      <div class="card-chips"><span class="chip">Screen</span><span class="chip">Playback</span></div>
+    </div>
+  </div>
+
+  <!-- Matterhorn canvas — info card -->
+  <div class="hs flip" id="h-matter" style="left:91.8%;top:39.1%" onclick="togCard('h-matter')">
+    <div class="hs-dot"></div>
+    <div class="card">
+      <span class="card-x" onclick="event.stopPropagation();closeCard('h-matter')">&#10005;</span>
+      <div class="card-title">The Matterhorn</div>
+      <p class="card-body">Switzerland. A mountain that doesn't move. Picked this piece because it mirrors a mindset — immovable, elevated, permanent.</p>
+      <div class="card-chips"><span class="chip">Mindset</span></div>
+    </div>
+  </div>
+
+  <!-- Collectibles / Iron Man shelf — info card -->
+  <div class="hs" id="h-collect" style="left:70.3%;top:52.7%" onclick="togCard('h-collect')">
+    <div class="hs-dot"></div>
+    <div class="card">
+      <span class="card-x" onclick="event.stopPropagation();closeCard('h-collect')">&#10005;</span>
+      <div class="card-title">The Shelf</div>
+      <p class="card-body">Deadpool. Iron Man. Bugs Bunny. Batman. Every piece has a story — this room doesn't do decoration for the sake of it.</p>
+      <div class="card-chips"><span class="chip">Collectibles</span></div>
+    </div>
+  </div>
+
+  <!-- Guitar — info card -->
+  <div class="hs flip" id="h-guitar" style="left:77.5%;top:56.6%" onclick="togCard('h-guitar')">
+    <div class="hs-dot"></div>
+    <div class="card">
+      <span class="card-x" onclick="event.stopPropagation();closeCard('h-guitar')">&#10005;</span>
+      <div class="card-title">The Guitar</div>
+      <p class="card-body">Waiting in the corner. Picked up between sessions. Not a professional tool — a reminder that every instrument starts the same way: you don't know, until you pick it up.</p>
+      <div class="card-chips"><span class="chip">Guitar</span></div>
+    </div>
+  </div>
+
+</div></div>
+
+<!-- REVEAL 1: Supreme decks close-up -->
+<div class="reveal" id="rv-decks">
+  <div class="r-scroll">
+    <img class="r-img" src="images/lounge-decks.jpg" alt="Supreme decks" draggable="false">
+    <div class="r-caption">
+      <small>The Lounge — Supreme Collection</small>
+      <h2>9<br>DECKS</h2>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.9rem;line-height:1.8;color:rgba(255,255,255,.48);margin-top:1rem;max-width:440px">Burberry. Louis Vuitton. The smurfs. Box logos. Not bought to skate — bought to hold. Each one a marker on the timeline of what I said I'd have, before I had it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- REVEAL 2: Gallery wall with clocks + hidden meanings -->
+<div class="reveal" id="rv-gallery">
+  <div class="r-scroll">
+
+    <div class="clocks-wrap">
+      <div class="clk">
+        <div class="clk-city">London</div>
+        <div class="clk-time" id="clk-uk">00:00</div>
+        <div class="clk-date" id="date-uk">Home</div>
+      </div>
+      <div class="clk-divider"></div>
+      <div class="clk">
+        <div class="clk-city">Dubai</div>
+        <div class="clk-time" id="clk-dxb">00:00</div>
+        <div class="clk-date" id="date-dxb">Next</div>
+      </div>
+    </div>
+
+    <div style="position:relative">
+      <img class="r-img" src="images/gallery-close.jpg" alt="Gallery wall" draggable="false">
+
+      <div class="g-dot" style="left:18%;top:50%" onclick="togGDot('gd1')" id="gd1">
+        <div class="g-dot-ring"></div>
+        <div class="g-card">
+          <h4>Naruto × LV</h4>
+          <em>A kid who was underestimated. A kid who became the one everyone believed in. Dressed in monograms they said he'd never afford.</em>
+          <span class="g-card-hint">Hidden Meaning</span>
+        </div>
+      </div>
+
+      <div class="g-dot" style="left:35%;top:43%" onclick="togGDot('gd2')" id="gd2">
+        <div class="g-dot-ring"></div>
+        <div class="g-card">
+          <h4>Walk Like a Bo$$</h4>
+          <em>Bugs never let them see him sweat. Cool under pressure, always a step ahead. The dollar sign isn't flex — it's the posture.</em>
+          <span class="g-card-hint">Hidden Meaning</span>
+        </div>
+      </div>
+
+      <div class="g-dot" style="left:35%;top:70%" onclick="togGDot('gd3')" id="gd3">
+        <div class="g-dot-ring"></div>
+        <div class="g-card">
+          <h4>Suited Up</h4>
+          <em>The cartoon you grew up with, now in the boardroom. The dream isn't to look rich — it's to operate on a different frequency entirely.</em>
+          <span class="g-card-hint">Hidden Meaning</span>
+        </div>
+      </div>
+
+      <div class="g-dot flip" style="left:65%;top:43%" onclick="togGDot('gd4')" id="gd4">
+        <div class="g-dot-ring"></div>
+        <div class="g-card">
+          <h4>No Luck All Hu$tle</h4>
+          <em>They said you got lucky. They forgot about every night you worked while they slept. Luck is what they call it when they can't explain the work.</em>
+          <span class="g-card-hint">Hidden Meaning</span>
+        </div>
+      </div>
+
+      <div class="g-dot flip" style="left:65%;top:70%" onclick="togGDot('gd5')" id="gd5">
+        <div class="g-dot-ring"></div>
+        <div class="g-card">
+          <h4>Be the Game Changer</h4>
+          <em>Don't play the game they built for you. Build your own. Change the rules. Set a new standard — and make them follow.</em>
+          <span class="g-card-hint">Hidden Meaning</span>
+        </div>
+      </div>
+
+      <div class="g-dot flip" style="left:82%;top:55%" onclick="togGDot('gd6')" id="gd6">
+        <div class="g-dot-ring"></div>
+        <div class="g-card">
+          <h4>The Family</h4>
+          <em>Cartoons we grew up watching, reimagined with the life we're building. It's not about the cars or the gold — it's about being able to provide for the ones you love.</em>
+          <span class="g-card-hint">Hidden Meaning</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="r-caption">
+      <small>The Lounge — Gallery Wall</small>
+      <h2>EVERY<br>PIECE<br>SPEAKS</h2>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;line-height:1.85;color:rgba(255,255,255,.48);margin-top:1.2rem;max-width:460px">Two watches — one set to London, one set to Dubai.
+
+One is where I built it.
+The other is where I'm going.
+
+Every painting holds a hidden meaning —
+the cartoons we grew up with,
+now dressed in the dreams we chased.
+
+Tap any dot to read what it really means.</p>
+    </div>
+  </div>
+</div>
+
+<button id="backbtn" onclick="closeReveal()">&#10005;&nbsp; Back</button>
+
+<div id="bot">
+  <a href="#" class="bot-btn">Menu</a>
+  <a href="studio.html" class="bot-btn">The Studio &#8594;</a>
+</div>
+
+<script>
+function centre(){
+  var s=document.getElementById('scroller');
+  if(s && s.scrollWidth > s.clientWidth){
+    s.scrollLeft=(s.scrollWidth-s.clientWidth)/2;
+  }
+}
+window.addEventListener('load',centre);
+window.addEventListener('resize',centre);
+
+// ── ZOOM REVEAL ──
+var _ox=50,_oy=50,_activeReveal=null;
+var EO='cubic-bezier(0.22,1,0.36,1)';
+var EC='cubic-bezier(0.64,0,0.78,0)';
+
+function openReveal(dotEl, revealId) {
+  if(_activeReveal) closeReveal();
+  var ring = dotEl.querySelector('.hs-dot');
+  var r = ring.getBoundingClientRect();
+  _ox = ((r.left+r.width/2)/window.innerWidth*100).toFixed(1);
+  _oy = ((r.top+r.height/2)/window.innerHeight*100).toFixed(1);
+  _activeReveal = revealId;
+
+  var rv = document.getElementById(revealId);
+  var ri = rv.querySelector('.r-img');
+  var btn = document.getElementById('backbtn');
+
+  ri.style.transition='none';
+  ri.style.filter='blur(18px) brightness(0.6)';
+  ri.style.transform='scale(1.06)';
+  rv.style.transition='none';
+  rv.style.clipPath='circle(0% at '+_ox+'% '+_oy+'%)';
+  rv.style.pointerEvents='none';
+  void rv.offsetWidth;
+
+  rv.style.transition='clip-path 1.15s '+EO;
+  rv.style.clipPath='circle(160% at '+_ox+'% '+_oy+'%)';
+  rv.style.pointerEvents='auto';
+  ri.style.transition='filter 0.9s ease 0.15s,transform 1s '+EO+' 0.1s';
+  ri.style.filter='blur(0px) brightness(1)';
+  ri.style.transform='scale(1)';
+
+  btn.style.transition='opacity 0.4s ease 0.8s,transform 0.4s '+EO+' 0.8s';
+  btn.style.opacity='1';btn.style.transform='translateY(0)';btn.style.pointerEvents='auto';
+
+  var sc=rv.querySelector('.r-scroll');
+  if(sc) sc.scrollTop=0;
+  document.getElementById('scroller').style.overflow='hidden';
+}
+
+function closeReveal() {
+  if(!_activeReveal) return;
+  var rv = document.getElementById(_activeReveal);
+  var ri = rv.querySelector('.r-img');
+  var btn = document.getElementById('backbtn');
+  ri.style.transition='filter 0.5s ease,transform 0.6s '+EC;
+  ri.style.filter='blur(14px) brightness(0.5)';
+  ri.style.transform='scale(1.05)';
+  rv.style.transition='clip-path 0.75s '+EC;
+  rv.style.clipPath='circle(0% at '+_ox+'% '+_oy+'%)';
+  rv.style.pointerEvents='none';
+  btn.style.transition='opacity 0.2s ease,transform 0.2s ease';
+  btn.style.opacity='0';btn.style.transform='translateY(-6px)';btn.style.pointerEvents='none';
+  document.getElementById('scroller').style.overflowX='auto';document.getElementById('scroller').style.overflowY='hidden';
+  _activeReveal=null;
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeReveal();});
+
+// CARDS
+var _activeCard=null;
+function togCard(id){if(_activeCard===id){closeCard(id);return;}if(_activeCard)closeCard(_activeCard);openCard(id);}
+function openCard(id){document.getElementById(id).classList.add('open');_activeCard=id;}
+function closeCard(id){document.getElementById(id).classList.remove('open');if(_activeCard===id)_activeCard=null;}
+document.getElementById('canvas').addEventListener('click',function(e){
+  if(!e.target.closest('.hs')&&_activeCard)closeCard(_activeCard);
+});
+
+// GALLERY DOTS
+var _activeGDot=null;
+function togGDot(id){if(_activeGDot===id){closeGDot(id);return;}if(_activeGDot)closeGDot(_activeGDot);document.getElementById(id).classList.add('on');_activeGDot=id;}
+function closeGDot(id){document.getElementById(id).classList.remove('on');if(_activeGDot===id)_activeGDot=null;}
+
+// CLOCKS
+function updateClocks(){
+  var now = new Date();
+  var uk = {timeZone:'Europe/London',hour:'2-digit',minute:'2-digit',hour12:false};
+  var ukD = {timeZone:'Europe/London',weekday:'short',day:'numeric',month:'short'};
+  document.getElementById('clk-uk').textContent = new Intl.DateTimeFormat('en-GB',uk).format(now);
+  document.getElementById('date-uk').textContent = new Intl.DateTimeFormat('en-GB',ukD).format(now) + ' · Home';
+  var dxb = {timeZone:'Asia/Dubai',hour:'2-digit',minute:'2-digit',hour12:false};
+  var dxbD = {timeZone:'Asia/Dubai',weekday:'short',day:'numeric',month:'short'};
+  document.getElementById('clk-dxb').textContent = new Intl.DateTimeFormat('en-GB',dxb).format(now);
+  document.getElementById('date-dxb').textContent = new Intl.DateTimeFormat('en-GB',dxbD).format(now) + ' · Next';
+}
+updateClocks();
+setInterval(updateClocks, 30000);
+</script>
+</body>
+</html>
