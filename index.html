@@ -76,30 +76,57 @@
 
 <section class="release" id="release">
   <div class="sc reveal">
-    <p class="eyebrow">Latest Release</p>
-    <div class="release-grid">
-      <div class="release-art">
-        <img src="WAVE_LENGTH_COVER_FINISH.JPG" alt="Wavelength — Adam Harris cover art" />
-      </div>
-      <div class="release-info">
-        <h2 class="release-title">Wavelength</h2>
-        <p class="release-meta">Adam Harris &nbsp;·&nbsp; 2025 &nbsp;·&nbsp; UK Pop / R&amp;B</p>
-        <div class="bbc-badge" role="img" aria-label="Featured on BBC Introducing">
-          <div class="bbc-badge-logo">
-            <span class="bbc-block">BBC</span>
-            <span class="bbc-introducing">introducing</span>
+    <p class="eyebrow">Latest Releases</p>
+    <div class="release-carousel" id="releaseCarousel">
+      <div class="release-slide">
+        <div class="release-grid">
+          <div class="release-art">
+            <img src="assets/photos/badDphoto.jpg" alt="Bad Decisions — Adam Harris cover art" />
           </div>
-          <span class="bbc-badge-text">Featured on BBC Introducing</span>
-        </div>
-        <div class="spotify-embed">
-          <iframe src="https://open.spotify.com/embed/track/7Iv7xDYTmo4pIKKQ3BE5nv?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Wavelength by Adam Harris on Spotify"></iframe>
-        </div>
-        <div class="release-btns">
-          <a href="https://open.spotify.com/track/7Iv7xDYTmo4pIKKQ3BE5nv?si=_fCrf24KQ0WEPfuBhOlpmg" target="_blank" rel="noopener" class="btn-outline">Spotify</a>
-          <a href="https://music.apple.com/gb/artist/adam-harris/1852372303" target="_blank" rel="noopener" class="btn-outline">Apple Music</a>
-          <a href="https://www.youtube.com/watch?v=eNIDrFiqlBc" target="_blank" rel="noopener" class="btn-outline">YouTube</a>
+          <div class="release-info">
+            <h2 class="release-title">Bad Decisions</h2>
+            <p class="release-meta">Adam Harris &nbsp;·&nbsp; 2025 &nbsp;·&nbsp; UK Pop / R&amp;B</p>
+            <div class="spotify-embed">
+              <iframe src="https://open.spotify.com/embed/track/7nABUBJf5oOYtlnRsfwnUc?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Bad Decisions by Adam Harris on Spotify"></iframe>
+            </div>
+            <div class="release-btns">
+              <a href="https://open.spotify.com/track/7nABUBJf5oOYtlnRsfwnUc" target="_blank" rel="noopener" class="btn-outline">Spotify</a>
+              <a href="https://music.apple.com/gb/song/bad-decision/1887573652" target="_blank" rel="noopener" class="btn-outline">Apple Music</a>
+              <a href="https://www.youtube.com/watch?v=xvBgtYvsr4I" target="_blank" rel="noopener" class="btn-outline">YouTube</a>
+            </div>
+          </div>
         </div>
       </div>
+      <div class="release-slide">
+        <div class="release-grid">
+          <div class="release-art">
+            <img src="WAVE_LENGTH_COVER_FINISH.JPG" alt="Wavelength — Adam Harris cover art" />
+          </div>
+          <div class="release-info">
+            <h2 class="release-title">Wavelength</h2>
+            <p class="release-meta">Adam Harris &nbsp;·&nbsp; 2025 &nbsp;·&nbsp; UK Pop / R&amp;B</p>
+            <div class="bbc-badge" role="img" aria-label="Featured on BBC Introducing">
+              <div class="bbc-badge-logo">
+                <span class="bbc-block">BBC</span>
+                <span class="bbc-introducing">introducing</span>
+              </div>
+              <span class="bbc-badge-text">Featured on BBC Introducing</span>
+            </div>
+            <div class="spotify-embed">
+              <iframe src="https://open.spotify.com/embed/track/7Iv7xDYTmo4pIKKQ3BE5nv?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Wavelength by Adam Harris on Spotify"></iframe>
+            </div>
+            <div class="release-btns">
+              <a href="https://open.spotify.com/track/7Iv7xDYTmo4pIKKQ3BE5nv?si=_fCrf24KQ0WEPfuBhOlpmg" target="_blank" rel="noopener" class="btn-outline">Spotify</a>
+              <a href="https://music.apple.com/gb/artist/adam-harris/1852372303" target="_blank" rel="noopener" class="btn-outline">Apple Music</a>
+              <a href="https://www.youtube.com/watch?v=eNIDrFiqlBc" target="_blank" rel="noopener" class="btn-outline">YouTube</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="release-dots" id="releaseDots">
+      <button class="release-dot active" type="button" aria-label="Go to slide 1"></button>
+      <button class="release-dot" type="button" aria-label="Go to slide 2"></button>
     </div>
   </div>
 </section>
@@ -277,6 +304,17 @@
         if (target) { e.preventDefault(); target.scrollIntoView({ behavior: "smooth" }); }
       });
     });
+    const releaseCarousel = document.getElementById("releaseCarousel");
+    const releaseDots = document.querySelectorAll("#releaseDots .release-dot");
+    if (releaseCarousel && releaseDots.length) {
+      releaseCarousel.addEventListener("scroll", () => {
+        const i = Math.round(releaseCarousel.scrollLeft / releaseCarousel.clientWidth);
+        releaseDots.forEach((d, idx) => d.classList.toggle("active", idx === i));
+      }, { passive: true });
+      releaseDots.forEach((d, i) => d.addEventListener("click", () => {
+        releaseCarousel.scrollTo({ left: i * releaseCarousel.clientWidth, behavior: "smooth" });
+      }));
+    }
   </script>
 
 </body>
