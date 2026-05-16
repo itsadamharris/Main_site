@@ -15,9 +15,25 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:'DM
 
 #canvas{position:relative;display:inline-block}
 
-#room-img{display:block;width:100vw;height:auto;max-width:none}
-@media (max-aspect-ratio: 3/2){
-  #room-img{width:auto;height:100vh}
+#room-img{
+  display:block;
+  max-width:none;
+  height:100vh;
+  height:100dvh;
+  width:auto;
+}
+@media (min-width:1200px){
+  #scroller{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  #room-img{
+    max-height:100dvh;
+    max-height:100vh;
+    width:auto;
+    height:auto;
+  }
 }
 /* NAV */
 #nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2.5rem);height:48px;pointer-events:none}
