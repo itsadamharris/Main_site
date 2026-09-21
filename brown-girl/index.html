@@ -239,7 +239,7 @@ footer{padding:36px var(--pad) 48px;text-align:center;color:var(--muted);font-si
       <p class="artist">Adam Harris</p>
       <h1 class="title" aria-label="Brown Girl"><span class="line" aria-hidden="true"><span>Brown</span></span><span class="line" aria-hidden="true"><span>Girl</span></span></h1>
       <p class="out">Out now</p>
-      <a class="cta" id="listenCta" href="#listen"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path class="f" d="M7 4.5v15l13-7.5z"/></svg>Listen to Brown Girl</a>
+      <a class="cta" id="listenCta" href="#watch"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path class="f" d="M7 4.5v15l13-7.5z"/></svg>Listen to Brown Girl</a>
       <br>
       <a class="sub" href="#assets">Press and radio assets</a>
     </div>
@@ -251,7 +251,7 @@ footer{padding:36px var(--pad) 48px;text-align:center;color:var(--muted);font-si
 <!-- ============ LISTEN ============ -->
 <section id="listen" class="tone">
   <div class="wrap">
-    <h2>Listen</h2>
+    <h2>Stream</h2>
     <div class="listen-grid">
       <div class="player is-empty" id="player">
         <button class="play" id="playBtn" aria-label="Play Brown Girl" disabled>
@@ -292,7 +292,7 @@ footer{padding:36px var(--pad) 48px;text-align:center;color:var(--muted);font-si
 <!-- ============ WATCH ============ -->
 <section id="watch" class="tone">
   <div class="wrap">
-    <h2>Watch</h2>
+    <h2 id="watchTitle">Listen to the full song</h2>
     <div class="frame" id="videoFrame">
       <div class="badge" id="videoBadge">Official music video — coming soon</div>
     </div>
@@ -366,9 +366,9 @@ const CONFIG = {
   },
 
   video: {
-    youtubeId: 'HT2n5pICFI4',                  // temporary Brown Girl visual; swap for the official video later
+    youtubeId: 'HT2n5pICFI4',                  // full song for now; swap for the official video later
     official: false,                           // set true when the official video is live
-    label: 'Brown Girl'                        // caption under the video
+    label: 'Brown Girl – full song'            // caption under the video (song only until the official video is out)
   },
 
   photos: [
@@ -540,6 +540,7 @@ $('#listenCta').addEventListener('click', () => { if (playerReady) audio.play().
 (() => {
   const v = CONFIG.video, frame = $('#videoFrame');
   $('#videoBadge').hidden = !!v.official;
+  $('#watchTitle').textContent = v.official ? 'Watch the video' : 'Listen to the full song';
   $('#videoCap').textContent = v.official ? 'Official music video' : v.label;
   if (!v.youtubeId) {
     frame.append(h('div', { class: 'ph-fill' }, h('span', { text: 'Brown Girl performance video' }), h('small', { text: 'Add CONFIG.video.youtubeId' })));
