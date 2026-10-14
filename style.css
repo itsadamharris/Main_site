@@ -876,3 +876,98 @@ a { color: inherit; text-decoration: none; }
   .hero-btns .btn-solid,
   .hero-btns .btn-ghost { width: 220px; justify-content: center; }
 }
+
+/* ── Brown Girl "Out Now" hero pill (links to /brown-girl/) ── */
+.hero-out-now {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  padding: 9px 20px;
+  border: 1px solid rgba(255,255,255,0.38);
+  border-radius: 999px;
+  background: rgba(0,0,0,0.35);
+  color: #fff;
+  font-family: var(--font-b);
+  font-size: 0.72rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color .3s, background .3s;
+}
+.hero-out-now em {
+  font-family: var(--font-d);
+  font-style: italic;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  text-transform: none;
+}
+.hero-out-now:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+.hero-out-now-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #c8874f;
+  box-shadow: 0 0 0 0 rgba(200,135,79,0.6);
+  animation: outNowPulse 2s ease-out infinite;
+}
+@keyframes outNowPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(200,135,79,0.6); }
+  100% { box-shadow: 0 0 0 9px rgba(200,135,79,0); }
+}
+@media (prefers-reduced-motion: reduce) { .hero-out-now-dot { animation: none; } }
+@media (max-width: 600px) { .hero-out-now { font-size: 0.64rem; letter-spacing: 2px; padding: 8px 16px; } }
+
+/* ── Brown Girl: gold/silver shine on "Latest Release" line ── */
+.hero-release--shine { font-size: 0.95rem; letter-spacing: 0.5px; margin-bottom: 26px; }
+.shine-silver,
+.shine-gold {
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: textShine 5s linear infinite;
+}
+.shine-silver {
+  background-image: linear-gradient(110deg,
+    rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.55) 40%,
+    #ffffff 50%,
+    rgba(255,255,255,0.55) 60%, rgba(255,255,255,0.55) 100%);
+}
+.shine-gold {
+  background-image: linear-gradient(110deg,
+    #b8862f 0%, #d9ad55 30%, #f6e2a8 45%, #fff6dc 50%,
+    #f6e2a8 55%, #d9ad55 70%, #b8862f 100%);
+}
+.hero-release--shine em.shine-gold { font-size: 1.25rem; font-weight: 600; }
+@keyframes textShine {
+  from { background-position: 100% 0; }
+  to   { background-position: -150% 0; }
+}
+
+/* ── Brown Girl: temporary hero video ── */
+.hero-video {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto 30px;
+}
+.hero-video .vwrap {
+  border-color: rgba(217,173,85,0.35);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+}
+
+/* ── Brown Girl: featured video above the Videos grid ── */
+.video-feature { margin-bottom: 28px; }
+.video-feature .vwrap { border-color: rgba(217,173,85,0.3); }
+.video-feature .vlabel .shine-gold {
+  font-family: var(--font-d);
+  font-style: italic;
+  font-size: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shine-silver, .shine-gold { animation: none; background-position: 50% 0; }
+}
+@media (max-width: 600px) {
+  .hero-video { margin-bottom: 24px; }
+}
