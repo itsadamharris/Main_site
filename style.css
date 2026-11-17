@@ -1114,3 +1114,68 @@ a { color: inherit; text-decoration: none; }
   font-style: italic;
   font-size: 1rem;
 }
+
+/* ══════════════════════════════════════════════
+   RADIO SUPPORT
+══════════════════════════════════════════════ */
+.radio {
+  padding: 96px 0;
+  border-top: 1px solid var(--border);
+}
+.radio .sh { margin-bottom: 40px; }
+.radio-feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 40px 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: var(--bg2);
+}
+.radio-feature img {
+  display: block;
+  width: 320px;
+  max-width: 80%;
+  height: auto;
+}
+.radio-feature-tag {
+  font-family: var(--font-b);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #fff;
+}
+.radio-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.radio-list li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 28px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: var(--bg2);
+  font-family: var(--font-d);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.85);
+  transition: border-color .3s, color .3s;
+}
+.radio-list li:hover { border-color: var(--border-h); color: #fff; }
+@media (max-width: 960px) {
+  .radio-list { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .radio { padding: 72px 0; }
+  .radio-feature { padding: 32px 18px; }
+  .radio-list { gap: 12px; }
+  .radio-list li { padding: 22px 12px; font-size: 1.25rem; }
+}
