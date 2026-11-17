@@ -346,7 +346,7 @@ footer{padding:36px var(--pad) 48px;text-align:center;color:var(--muted);font-si
 <section id="contact">
   <div class="wrap">
     <h2>Contact</h2>
-    <div class="contacts" id="contacts"></div>
+    <div class="contacts"><div class="contact"><h3>Bookings, press &amp; radio</h3><a href="/#contact">Send a message</a></div></div>
     <ul class="socials">
       <li><a class="social" data-social="instagram"><svg class="ico" data-icon="instagram" viewBox="0 0 24 24" aria-hidden="true"></svg>Instagram</a></li>
       <li><a class="social" data-social="tiktok"><svg class="ico" data-icon="tiktok" viewBox="0 0 24 24" aria-hidden="true"></svg>TikTok</a></li>
@@ -407,11 +407,6 @@ const CONFIG = {
     displayName: 'Itsadamharris',
     writers: '', duration: '', explicit: '', bpmKey: ''
   },
-
-  contacts: [
-    { role: 'Management',        name: '', email: 'management@itsadamharris.com', phone: '' },
-    { role: 'General enquiries', name: '', email: 'contact@itsadamharris.com',    phone: '' }
-  ],
 
   social: {
     instagram: 'https://www.instagram.com/its.adamharris',
@@ -626,19 +621,6 @@ $('#listenCta').addEventListener('click', () => { if (playerReady) audio.play().
   });
 })();
 
-/* ---------- Contacts ---------- */
-(() => {
-  const box = $('#contacts');
-  CONFIG.contacts.forEach(c => {
-    const el = h('div', { class: 'contact' }, h('h3', { text: c.role }));
-    if (c.name) el.append(h('p', { text: c.name }));
-    el.append(c.email
-      ? h('a', { href: 'mailto:' + c.email + '?subject=' + encodeURIComponent('Brown Girl – Adam Harris'), text: c.email })
-      : h('p', {}, ph('[Email address]')));
-    if (c.phone) el.append(h('a', { href: 'tel:' + c.phone.replace(/[^+\d]/g, ''), text: c.phone }));
-    box.append(el);
-  });
-})();
 </script>
   <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bf2f2bf3682e46ae8aa65f4b605b2761"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
