@@ -971,3 +971,39 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 600px) {
   .hero-video { margin-bottom: 24px; }
 }
+
+/* ── BBC Asian Network Artist of the Week: hero accolade (below name) ── */
+.hero-accolade {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: -4px auto 30px;
+}
+.hero-accolade-plate {
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 18px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+}
+.hero-accolade-plate img {
+  display: block;
+  width: 260px;
+  height: auto;
+}
+.hero-accolade-title {
+  font-family: var(--font-b);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #fff;
+}
+/* The accolade already separates name and release line */
+.hero-accolade + .hero-divider { display: none; }
+@media (max-width: 600px) {
+  .hero-accolade { margin-bottom: 24px; gap: 10px; }
+  .hero-accolade-plate { padding: 10px 14px; }
+  .hero-accolade-plate img { width: 210px; }
+  .hero-accolade-title { font-size: 0.68rem; letter-spacing: 3px; }
+}
