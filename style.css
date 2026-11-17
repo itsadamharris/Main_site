@@ -1262,3 +1262,7 @@ a { color: inherit; text-decoration: none; }
 .rc-bbc { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 12px; }
 .rc-bbc .bbc-block { font-size: 0.6rem; letter-spacing: 2px; padding: 1px 5px; }
 .rc-bbc .bbc-introducing { font-size: 0.55rem; }
+
+/* Artist of the Week: more room + darker backing so it stands clear of the photo */
+.hero-accolade { margin: 14px auto 40px; padding: 34px 64px; background: radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.38) 50%, rgba(0,0,0,0) 78%); gap: 16px; }
+@media (max-width: 600px) { .hero-accolade { margin: 8px auto 28px; padding: 26px 28px; gap: 14px; } }
