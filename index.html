@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20261117" />
+  <link rel="stylesheet" href="style.css?v=20261117b" />
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -106,6 +106,33 @@
     </div>
   </div>
   <div class="scroll-hint" aria-hidden="true"><span></span></div>
+</section>
+
+<section class="bbc-feature" id="bbc">
+  <div class="sc reveal">
+    <div class="bbc-feature-grid">
+      <div class="bbc-feature-media" id="bbcMedia">
+        <video class="bbc-feature-video" controls playsinline preload="none"
+               poster="assets/video/bbc-asian-network-intro-poster.jpg"
+               width="540" height="960"
+               aria-label="BBC Asian Network Artist of the Week intro — Adam Harris">
+          <source src="assets/video/bbc-asian-network-intro.mp4" type="video/mp4" />
+        </video>
+        <button class="bbc-play" id="bbcPlay" type="button" aria-label="Play BBC Asian Network intro" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+        </button>
+      </div>
+      <div class="bbc-feature-copy">
+        <p class="eyebrow">As Heard On</p>
+        <h2 class="sh bbc-feature-title">BBC Asian Network</h2>
+        <p class="bbc-feature-tag">Artist of the Week</p>
+        <p class="bbc-feature-p">The official BBC Asian Network Artist of the Week intro. Tap play to watch with sound.</p>
+        <div class="release-btns">
+          <a href="https://open.spotify.com/track/025qrNTkvyTbIXixRSaB6y" target="_blank" rel="noopener" class="btn-outline">Listen to Brown Girl</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="release" id="release">
@@ -374,6 +401,17 @@
       releaseDots.forEach((d, i) => d.addEventListener("click", () => {
         releaseCarousel.scrollTo({ left: i * releaseCarousel.clientWidth, behavior: "smooth" });
       }));
+    }
+    // BBC intro video: clean poster with a play button; native controls once playing.
+    // Without JS the <video> keeps its native controls.
+    const bbcMedia = document.getElementById("bbcMedia");
+    if (bbcMedia) {
+      const v = bbcMedia.querySelector("video");
+      const btn = document.getElementById("bbcPlay");
+      v.removeAttribute("controls");
+      btn.hidden = false;
+      btn.addEventListener("click", () => { v.controls = true; btn.hidden = true; v.play(); });
+      v.addEventListener("ended", () => { v.controls = false; v.load(); btn.hidden = false; });
     }
   </script>
 
