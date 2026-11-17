@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20261117q" />
+  <link rel="stylesheet" href="style.css?v=20261117r" />
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -43,7 +43,6 @@
       </a>
       <nav class="nav-links" aria-label="Main navigation">
         <a href="#release">Music</a>
-        <a href="#releases">Releases</a>
         <a href="#video">Video</a>
         <a href="#about">About</a>
         <a href="#collab">Collabs</a>
@@ -57,7 +56,6 @@
     <div class="nav-progress" id="navProgress" aria-hidden="true"></div>
     <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation" aria-hidden="true">
       <a href="#release">Music</a>
-      <a href="#releases">Releases</a>
       <a href="#video">Video</a>
       <a href="#about">About</a>
       <a href="#collab">Collabs</a>
@@ -110,53 +108,46 @@
   <div class="scroll-hint" aria-hidden="true"><span></span></div>
 </section>
 
-<section class="bbc-feature" id="bbc">
+<section class="bbc-feature bbc-hub" id="bbc">
   <div class="sc reveal">
-    <div class="bbc-feature-grid">
-      <div class="bbc-feature-media" data-video-wrap>
-        <video class="bbc-feature-video" controls playsinline preload="none"
-               poster="assets/video/bbc-asian-network-intro-poster.jpg"
-               width="540" height="960"
-               aria-label="BBC Asian Network Artist of the Week intro — Adam Harris">
-          <source src="assets/video/bbc-asian-network-intro.mp4" type="video/mp4" />
-        </video>
-        <button class="bbc-play" type="button" aria-label="Play BBC Asian Network intro" hidden>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
-        </button>
-      </div>
-      <div class="bbc-feature-copy">
-        <p class="eyebrow">As Heard On</p>
-        <h2 class="sh bbc-feature-title">BBC Asian Network</h2>
-        <p class="bbc-feature-tag">Artist of the Week</p>
-        <p class="bbc-feature-p">The official BBC Asian Network Artist of the Week intro. Tap play to watch with sound.</p>
-        <div class="release-btns">
-          <a href="https://open.spotify.com/track/025qrNTkvyTbIXixRSaB6y" target="_blank" rel="noopener" class="btn-outline">Listen to Brown Girl</a>
-        </div>
-      </div>
+    <div class="bbc-hub-head">
+      <img class="bbc-hub-logo" src="assets/logo/bbc-asian-network.png" alt="BBC Radio Asian Network" width="1280" height="284" />
+      <h2 class="sh bbc-hub-title">Artist of the Week</h2>
+      <p class="bbc-hub-date">9 November 2026</p>
+      <p class="bbc-feature-p">Adam Harris was named BBC Asian Network Artist of the Week with his single Brown Girl. Watch the official intro and his interview on BBC Introducing on Asian Network. Tap play to watch with sound.</p>
     </div>
-  </div>
-</section>
-
-<section class="bbc-feature bbc-feature--flip" id="interview">
-  <div class="sc reveal">
-    <div class="bbc-feature-grid">
-      <div class="bbc-feature-media" data-video-wrap>
-        <video class="bbc-feature-video" controls playsinline preload="none"
-               poster="assets/video/bbc-asian-network-interview-poster.jpg"
-               width="720" height="1280"
-               aria-label="Adam Harris interview on BBC Introducing on Asian Network">
-          <source src="assets/video/bbc-asian-network-interview.mp4" type="video/mp4" />
-        </video>
-        <button class="bbc-play" type="button" aria-label="Play the BBC Asian Network interview" hidden>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
-        </button>
-      </div>
-      <div class="bbc-feature-copy">
-        <p class="eyebrow">Live On Air</p>
-        <h2 class="sh bbc-feature-title">The Interview</h2>
-        <p class="bbc-feature-tag">BBC Introducing on Asian Network</p>
-        <p class="bbc-feature-p">Adam on BBC Introducing on Asian Network with Jasmine Takhar. Tap play to watch with sound.</p>
-      </div>
+    <div class="bbc-hub-videos">
+      <figure class="bbc-hub-card">
+        <div class="bbc-feature-media" data-video-wrap>
+          <video class="bbc-feature-video" controls playsinline preload="none"
+                 poster="assets/video/bbc-asian-network-intro-poster.jpg"
+                 width="540" height="960"
+                 aria-label="BBC Asian Network Artist of the Week intro — Adam Harris">
+            <source src="assets/video/bbc-asian-network-intro.mp4" type="video/mp4" />
+          </video>
+          <button class="bbc-play" type="button" aria-label="Play the BBC Asian Network intro" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <figcaption><strong>The Intro</strong><span>Official BBC Asian Network Artist of the Week intro</span></figcaption>
+      </figure>
+      <figure class="bbc-hub-card">
+        <div class="bbc-feature-media" data-video-wrap>
+          <video class="bbc-feature-video" controls playsinline preload="none"
+                 poster="assets/video/bbc-asian-network-interview-poster.jpg"
+                 width="720" height="1280"
+                 aria-label="Adam Harris interview on BBC Introducing on Asian Network">
+            <source src="assets/video/bbc-asian-network-interview.mp4" type="video/mp4" />
+          </video>
+          <button class="bbc-play" type="button" aria-label="Play the BBC Asian Network interview" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <figcaption><strong>The Interview</strong><span>With Jasmine Takhar on BBC Introducing on Asian Network</span></figcaption>
+      </figure>
+    </div>
+    <div class="release-btns bbc-hub-btns">
+      <a href="https://open.spotify.com/track/025qrNTkvyTbIXixRSaB6y" target="_blank" rel="noopener" class="btn-outline">Listen to Brown Girl</a>
     </div>
   </div>
 </section>
