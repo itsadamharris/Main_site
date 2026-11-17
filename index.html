@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20261117h" />
+  <link rel="stylesheet" href="style.css?v=20261117j" />
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -113,14 +113,14 @@
 <section class="bbc-feature" id="bbc">
   <div class="sc reveal">
     <div class="bbc-feature-grid">
-      <div class="bbc-feature-media" id="bbcMedia">
+      <div class="bbc-feature-media" data-video-wrap>
         <video class="bbc-feature-video" controls playsinline preload="none"
                poster="assets/video/bbc-asian-network-intro-poster.jpg"
                width="540" height="960"
                aria-label="BBC Asian Network Artist of the Week intro — Adam Harris">
           <source src="assets/video/bbc-asian-network-intro.mp4" type="video/mp4" />
         </video>
-        <button class="bbc-play" id="bbcPlay" type="button" aria-label="Play BBC Asian Network intro" hidden>
+        <button class="bbc-play" type="button" aria-label="Play BBC Asian Network intro" hidden>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
         </button>
       </div>
@@ -137,9 +137,40 @@
   </div>
 </section>
 
+<section class="bbc-feature bbc-feature--flip" id="interview">
+  <div class="sc reveal">
+    <div class="bbc-feature-grid">
+      <div class="bbc-feature-media" data-video-wrap>
+        <video class="bbc-feature-video" controls playsinline preload="none"
+               poster="assets/video/bbc-asian-network-interview-poster.jpg"
+               width="720" height="1280"
+               aria-label="Adam Harris interview on BBC Introducing on Asian Network">
+          <source src="assets/video/bbc-asian-network-interview.mp4" type="video/mp4" />
+        </video>
+        <button class="bbc-play" type="button" aria-label="Play the BBC Asian Network interview" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+        </button>
+      </div>
+      <div class="bbc-feature-copy">
+        <p class="eyebrow">Live On Air</p>
+        <h2 class="sh bbc-feature-title">The Interview</h2>
+        <p class="bbc-feature-tag">BBC Introducing on Asian Network</p>
+        <p class="bbc-feature-p">Adam on BBC Introducing on Asian Network with Jasmine Takhar. Tap play to watch with sound.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="release" id="release">
   <div class="sc reveal">
     <p class="eyebrow">Latest Releases</p>
+    <div class="upcoming">
+      <div class="upcoming-copy">
+        <p class="upcoming-kicker">Coming 27 November</p>
+        <h2 class="upcoming-title">Robbed Me of Us</h2>
+      </div>
+      <a href="https://distrokid.com/hyperfollow/itsadamharris/you-robbed-me-of-us" target="_blank" rel="noopener" class="btn-solid">Pre-save</a>
+    </div>
     <div class="release-carousel" id="releaseCarousel">
       <div class="release-slide">
         <div class="release-grid">
@@ -454,17 +485,16 @@
         releaseCarousel.scrollTo({ left: i * releaseCarousel.clientWidth, behavior: "smooth" });
       }));
     }
-    // BBC intro video: clean poster with a play button; native controls once playing.
-    // Without JS the <video> keeps its native controls.
-    const bbcMedia = document.getElementById("bbcMedia");
-    if (bbcMedia) {
-      const v = bbcMedia.querySelector("video");
-      const btn = document.getElementById("bbcPlay");
+    // Self-hosted videos: clean poster with a play button; native controls once playing.
+    // Without JS each <video> keeps its native controls.
+    document.querySelectorAll("[data-video-wrap]").forEach(wrap => {
+      const v = wrap.querySelector("video");
+      const btn = wrap.querySelector(".bbc-play");
       v.removeAttribute("controls");
       btn.hidden = false;
       btn.addEventListener("click", () => { v.controls = true; btn.hidden = true; v.play(); });
       v.addEventListener("ended", () => { v.controls = false; v.load(); btn.hidden = false; });
-    }
+    });
   </script>
 
   <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bf2f2bf3682e46ae8aa65f4b605b2761"}'></script><!-- End Cloudflare Web Analytics -->
