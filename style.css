@@ -1307,3 +1307,10 @@ a { color: inherit; text-decoration: none; }
 .cf-status.ok { color: #fce80b; }
 .cf-status.err { color: #ff8a80; }
 @media (max-width: 600px) { .cf-row { grid-template-columns: 1fr; } .cf-submit { align-self: stretch; } }
+
+/* ── Selected Releases: equal-height cards, links share one baseline ── */
+.releases-grid { align-items: stretch; }
+.rc { display: flex; flex-direction: column; }
+.rc-info { flex: 1; display: flex; flex-direction: column; }
+.rc-info .rc-links { margin-top: auto; }
+.rc-title { line-height: 1.25; }
