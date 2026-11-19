@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Adam Harris — The Studio</title>
+<meta name="description" content="Step inside The Studio — an interactive look around Adam Harris's studio.">
+<link rel="canonical" href="https://itsadamharris.com/the-rooms/studio.html">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Adam Harris">
+<meta property="og:title" content="Adam Harris — The Studio">
+<meta property="og:description" content="Step inside The Studio — an interactive look around Adam Harris's studio.">
+<meta property="og:url" content="https://itsadamharris.com/the-rooms/studio.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 
@@ -56,6 +69,9 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:'DM
 .nav-right{display:flex;gap:clamp(.8rem,2vw,2rem)}
 .nav-a{font-size:.48rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s}
 .nav-a:hover,.nav-a.on{color:rgba(255,255,255,.85)}
+.nav-a.on{color:#fce80b}
+.nav-a{white-space:nowrap}
+@media (max-width:600px){#nav{padding:0 14px}.nav-logo{font-size:.5rem;letter-spacing:.22em}.nav-right{gap:.7rem}.nav-a{font-size:.52rem;letter-spacing:.16em;padding:12px 0}}
 /* DOTS */
 .hs{position:absolute;width:22px;height:22px;transform:translate(-50%,-50%);z-index:20;cursor:pointer}
 .hs-dot{width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:0;left:0;transition:background .2s,transform .2s;animation:pw 3s ease infinite}
@@ -104,7 +120,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <body>
 
 <nav id="nav">
-  <span class="nav-logo">Adam Harris</span>
+  <a href="/" class="nav-logo" aria-label="Adam Harris, home">Adam Harris</a>
   <div class="nav-right">
     <a href="/the-rooms/" class="nav-a">The Lounge</a>
     <a href="/the-rooms/studio.html" class="nav-a on">The Studio</a>
