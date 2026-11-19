@@ -22,31 +22,129 @@
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "MusicGroup",
-  "@id": "https://itsadamharris.com/#artist",
-  "name": "Adam Harris",
-  "alternateName": "ItsAdamHarris",
-  "url": "https://itsadamharris.com",
-  "image": "https://itsadamharris.com/assets/photos/heropicnew.png",
-  "description": "Adam Harris is a UK pop artist from Leicester, blending cinematic production with emotionally driven songwriting. Named BBC Asian Network Artist of the Week in November 2026 with Brown Girl, he first earned a play on BBC Introducing with Wavelength.",
-  "genre": ["UK Pop", "R&B"],
-  "award": "BBC Asian Network Artist of the Week (November 2026)",
-  "foundingLocation": {
-    "@type": "Place",
-    "name": "Leicester, UK"
-  },
-  "track": [
-    {"@type": "MusicRecording", "name": "Brown Girl (Acoustic)", "datePublished": "2026-10-30", "url": "https://open.spotify.com/track/7gCsZPCeeyeWgW12YnykNP"},
-    {"@type": "MusicRecording", "name": "Brown Girl", "datePublished": "2026-09-19", "url": "https://open.spotify.com/track/025qrNTkvyTbIXixRSaB6y"},
-    {"@type": "MusicRecording", "name": "Bad Decision", "datePublished": "2026-04-16", "url": "https://open.spotify.com/track/7nABUBJf5oOYtlnRsfwnUc"},
-    {"@type": "MusicRecording", "name": "Wavelength", "datePublished": "2026-01-09", "url": "https://open.spotify.com/track/7Iv7xDYTmo4pIKKQ3BE5nv"}
-  ],
-  "sameAs": [
-    "https://open.spotify.com/artist/0UfxZqpIdQ5MnFedukGl5V",
-    "https://music.apple.com/gb/artist/adam-harris/1852372303",
-    "https://www.youtube.com/@itsadamharris",
-    "https://www.instagram.com/its.adamharris",
-    "https://www.tiktok.com/@itsadamharris"
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://itsadamharris.com/#website",
+      "url": "https://itsadamharris.com/",
+      "name": "Adam Harris",
+      "alternateName": "ItsAdamHarris",
+      "publisher": {
+        "@id": "https://itsadamharris.com/#artist"
+      }
+    },
+    {
+      "@type": "MusicGroup",
+      "@id": "https://itsadamharris.com/#artist",
+      "name": "Adam Harris",
+      "alternateName": "ItsAdamHarris",
+      "url": "https://itsadamharris.com",
+      "image": "https://itsadamharris.com/assets/photos/heropicnew.png",
+      "description": "Adam Harris is a UK pop artist from Leicester, blending cinematic production with emotionally driven songwriting. Named BBC Asian Network Artist of the Week in November 2026 with Brown Girl, he first earned a play on BBC Introducing with Wavelength.",
+      "genre": [
+        "UK Pop",
+        "R&B"
+      ],
+      "award": "BBC Asian Network Artist of the Week (November 2026)",
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Leicester, UK"
+      },
+      "track": [
+        {
+          "@type": "MusicRecording",
+          "name": "Brown Girl (Acoustic)",
+          "datePublished": "2026-10-30",
+          "url": "https://open.spotify.com/track/7gCsZPCeeyeWgW12YnykNP"
+        },
+        {
+          "@type": "MusicRecording",
+          "name": "Brown Girl",
+          "datePublished": "2026-09-19",
+          "url": "https://open.spotify.com/track/025qrNTkvyTbIXixRSaB6y"
+        },
+        {
+          "@type": "MusicRecording",
+          "name": "Bad Decision",
+          "datePublished": "2026-04-16",
+          "url": "https://open.spotify.com/track/7nABUBJf5oOYtlnRsfwnUc"
+        },
+        {
+          "@type": "MusicRecording",
+          "name": "Wavelength",
+          "datePublished": "2026-01-09",
+          "url": "https://open.spotify.com/track/7Iv7xDYTmo4pIKKQ3BE5nv"
+        }
+      ],
+      "sameAs": [
+        "https://open.spotify.com/artist/0UfxZqpIdQ5MnFedukGl5V",
+        "https://music.apple.com/gb/artist/adam-harris/1852372303",
+        "https://www.youtube.com/@itsadamharris",
+        "https://www.instagram.com/its.adamharris",
+        "https://www.tiktok.com/@itsadamharris"
+      ]
+    },
+    {
+      "@type": "MusicRecording",
+      "name": "You Robbed Me of Us",
+      "datePublished": "2026-11-27",
+      "url": "https://distrokid.com/hyperfollow/itsadamharris/you-robbed-me-of-us",
+      "byArtist": {
+        "@id": "https://itsadamharris.com/#artist"
+      }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Adam Harris - Brown Girl (Acoustic)",
+      "description": "Acoustic performance video of Brown Girl by Adam Harris.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/unZZOQWIaTg/hqdefault.jpg",
+      "uploadDate": "2026-11-08T10:57:17-08:00",
+      "duration": "PT2M44S",
+      "embedUrl": "https://www.youtube.com/embed/unZZOQWIaTg",
+      "url": "https://www.youtube.com/watch?v=unZZOQWIaTg",
+      "creator": {
+        "@id": "https://itsadamharris.com/#artist"
+      }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Adam Harris - Brown Girl (Official Music Video)",
+      "description": "Official music video for Brown Girl by Adam Harris, BBC Asian Network Artist of the Week.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/AJkTZjeznbM/hqdefault.jpg",
+      "uploadDate": "2026-10-11T10:00:26-07:00",
+      "duration": "PT2M50S",
+      "embedUrl": "https://www.youtube.com/embed/AJkTZjeznbM",
+      "url": "https://www.youtube.com/watch?v=AJkTZjeznbM",
+      "creator": {
+        "@id": "https://itsadamharris.com/#artist"
+      }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Adam Harris - Bad Decision (Official Music Video)",
+      "description": "Official music video for Bad Decision by Adam Harris.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/xvBgtYvsr4I/hqdefault.jpg",
+      "uploadDate": "2026-04-22T11:00:06-07:00",
+      "duration": "PT3M7S",
+      "embedUrl": "https://www.youtube.com/embed/xvBgtYvsr4I",
+      "url": "https://www.youtube.com/watch?v=xvBgtYvsr4I",
+      "creator": {
+        "@id": "https://itsadamharris.com/#artist"
+      }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Adam Harris - Wavelength (Official Music Video)",
+      "description": "Official music video for Wavelength by Adam Harris.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/eNIDrFiqlBc/hqdefault.jpg",
+      "uploadDate": "2026-01-19T12:00:28-08:00",
+      "duration": "PT2M43S",
+      "embedUrl": "https://www.youtube.com/embed/eNIDrFiqlBc",
+      "url": "https://www.youtube.com/watch?v=eNIDrFiqlBc",
+      "creator": {
+        "@id": "https://itsadamharris.com/#artist"
+      }
+    }
   ]
 }
 </script>
