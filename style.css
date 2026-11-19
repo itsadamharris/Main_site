@@ -1360,3 +1360,11 @@ a { color: inherit; text-decoration: none; }
   .hero-out-now em { font-size: 0.95rem; }
 }
 @media (max-width: 340px) { .hero-eyebrow { letter-spacing: 2.5px; } .hero-out-now { letter-spacing: 1px; padding: 8px 10px; gap: 6px; } }
+
+/* ── Small BBC Asian Network Artist of the Week lockup (Brown Girl) ── */
+.aotw { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 6px; margin: 0 0 12px; }
+.aotw img { display: block; height: 26px; width: auto; }
+.aotw span { font-family: var(--font-b); font-size: 0.56rem; font-weight: 700; line-height: 1; letter-spacing: 2.5px; text-transform: uppercase; color: #fff; opacity: 0.85; }
+.aotw--lg { margin-bottom: 24px; gap: 8px; }
+.aotw--lg img { height: 36px; }
+.aotw--lg span { font-size: 0.66rem; letter-spacing: 3px; }
