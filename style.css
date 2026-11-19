@@ -1341,3 +1341,13 @@ a { color: inherit; text-decoration: none; }
     radial-gradient(ellipse 55% 340px at 50% 0, rgba(192,0,187,0.17), transparent 72%),
     linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.015));
 }
+
+/* ── Touch targets: bigger hit areas without changing how things look ── */
+.release-dot { position: relative; }
+.release-dot::after { content: ""; position: absolute; inset: -14px -7px; }
+.release-dot.active { background: #fce80b; }
+@media (pointer: coarse), (max-width: 700px) {
+  .rc-links { gap: 6px 18px; }
+  .rc-links a { padding: 11px 0 10px; }
+}
+@media (pointer: coarse), (max-width: 700px) { .footer-epk { display: inline-block; padding: 12px 0; } }
