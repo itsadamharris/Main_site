@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Adam Harris — The Lounge</title>
+<meta name="description" content="Step inside The Lounge — an interactive look around a room in Adam Harris's world.">
+<link rel="canonical" href="https://itsadamharris.com/the-rooms/">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Adam Harris">
+<meta property="og:title" content="Adam Harris — The Lounge">
+<meta property="og:description" content="Step inside The Lounge — an interactive look around a room in Adam Harris's world.">
+<meta property="og:url" content="https://itsadamharris.com/the-rooms/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400&family=Cormorant+Garamond:ital,wght@1,300;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -53,10 +66,14 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:'DM
 /* NAV */
 #nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2.5rem);height:48px;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,.4) 0%,transparent 100%)}
 #nav *{pointer-events:auto}
-.nav-logo{font-size:.56rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.nav-logo{font-size:.56rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.75);text-decoration:none;white-space:nowrap}
+.nav-logo:hover{color:#fce80b}
 .nav-right{display:flex;gap:clamp(.8rem,2vw,2rem)}
 .nav-a{font-size:.48rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s}
 .nav-a:hover,.nav-a.on{color:rgba(255,255,255,.9)}
+.nav-a.on{color:#fce80b}
+.nav-a{white-space:nowrap}
+@media (max-width:600px){#nav{padding:0 14px}.nav-logo{font-size:.5rem;letter-spacing:.22em}.nav-right{gap:.7rem}.nav-a{font-size:.52rem;letter-spacing:.16em;padding:12px 0}}
 
 /* DOTS */
 .hs{position:absolute;width:22px;height:22px;transform:translate(-50%,-50%);z-index:20;cursor:pointer}
@@ -119,7 +136,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <body>
 
 <nav id="nav">
-  <span class="nav-logo">Adam Harris</span>
+  <a href="/" class="nav-logo" aria-label="Adam Harris, home">Adam Harris</a>
   <div class="nav-right">
     <a href="/the-rooms/" class="nav-a on">The Lounge</a>
     <a href="/the-rooms/studio.html" class="nav-a">The Studio</a>
@@ -130,7 +147,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 <div id="scroller"><div id="canvas">
 
-  <img id="room-img" src="images/lounge.jpg" alt="The Lounge" draggable="false" onload="console.log('IMG RENDER:', this.naturalWidth+'x'+this.naturalHeight, '→', this.offsetWidth+'x'+this.offsetHeight, 'SCROLLER:', document.getElementById('scroller').clientWidth+'x'+document.getElementById('scroller').clientHeight)">
+  <img id="room-img" src="images/lounge.jpg" alt="The Lounge" draggable="false">
 
   <!-- Supreme decks wall — left side — ZOOM REVEAL -->
   <div class="hs" id="h-decks" style="left:19.5%;top:31.2%" onclick="openReveal(this,'rv-decks')">
