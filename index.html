@@ -613,11 +613,21 @@
   const st=document.getElementById("cfStatus"), btn=f.querySelector(".cf-submit");
   f.addEventListener("submit",async e=>{
     e.preventDefault(); st.className="cf-status"; st.textContent=""; btn.disabled=true; const label=btn.textContent; btn.textContent="Sending…";
+    let why="";
     try{
       const r=await fetch(f.action,{method:"POST",body:new FormData(f),headers:{Accept:"application/json"}});
       if(r.ok){ f.reset(); st.classList.add("ok"); st.textContent="Thanks — your message has been sent."; }
-      else { throw new Error("bad"); }
-    }catch(err){ st.classList.add("err"); st.textContent="Sorry, that didn’t send. Please try again in a moment."; }
+      else {
+        let d={}; try{ d=await r.json(); }catch(_){}
+        const m=(d.errors&&d.errors[0]&&d.errors[0].message)||d.error||"";
+        why=(m?m+" ":"")+"[error "+r.status+"]";
+        console.warn("Contact form rejected:",r.status,d);
+        throw new Error("rejected");
+      }
+    }catch(err){
+      if(!why) why="[couldn’t reach the server]";
+      st.classList.add("err"); st.textContent="Sorry, that didn’t send. "+why+" Please try again in a moment.";
+    }
     btn.disabled=false; btn.textContent=label;
   });
 })();
